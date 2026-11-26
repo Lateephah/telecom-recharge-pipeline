@@ -45,7 +45,7 @@ Fix:
 
 Re-ran dbt run --select dim_customers+ and re-validated: 99971 | 99971.Impact if missed: Top 10 customers were actually 111 people aggregated together, inflating VIP metrics by 100x.
 
-##⚠️ **Limitations - Currently 270°, Not True 360°** 
+## ⚠️ **Limitations - Currently 270°, Not True 360°** 
 Yes, the model is called fct_customer_360, but for now na 270° we get. We see recharge + calls + profile, but back still dey dark.
 - **78,293 vs 99,971 in table**: fct_customer_360 uses INNER JOIN, so 21,678 customers who recharged but never called are dropped. Fix: LEFT JOIN from dim_customers.
 - **Usage can exceed recharge**: Recharge and CDR generators are independent. Example: recharge 2,000 but call cost 2,677 = negative balance. In production, prepaid balance check would prevent this.
