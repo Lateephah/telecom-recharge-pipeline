@@ -29,3 +29,32 @@ SELECT COUNT(*) as total_rows,
        COUNT(DISTINCT customer_id) as unique_ids
 FROM dim_customers;
 -- Result: 99971 | 999
+```
+Each customer_id was shared by ∼111 people.
+**Root Cause** - in dim_customers.sql:
+
+```sql
+'CUST/' || lpad(row_num::text, 3, '0') as customer_id
+```
+
+Postgres lpad(..., 3, '0') truncates to 3 chars. So 1000 became 100, colliding with the real CUST/100.
+Fix:
+```sql
+'CUST/' || lpad(row_num::text, 5, '0') as customer_id
+```
+
+Re-ran dbt run --select dim_customers+ and re-validated: 99971 | 99971.Impact if missed: Top 10 customers were actually 111 people aggregated together, inflating VIP metrics by 100x.
+##⚠️ **Limitations - Currently 270°, Not True 360°** 
+Yes, the model is called fct_customer_360, but for now na 270° we get. We see recharge + calls + profile, but back still dey dark.
+- **78,293 vs 99,971 in table**: fct_customer_360 uses INNER JOIN, so 21,678 customers who recharged but never called are dropped. Fix: LEFT JOIN from dim_customers.
+- **Usage can exceed recharge**: Recharge and CDR generators are independent. Example: recharge 2,000 but call cost 2,677 = negative balance. In production, prepaid balance check would prevent this.
+- **Network is uniform**: Generator assigns networks randomly, so 9mobile / Airtel / Glo / MTN each show ∼42M. Not a real market insight.
+- **Customers from recharge only**: dim_customers is built from recharge transactions grouped by phone_number.
+
+## 🗺️ Roadmap: 270° to True 360°
+- Add data usage (MB consumed)
+- Add SMS table
+- Add churn flag: no recharge in 90 days = churned
+- Add support tickets / complaints
+- Add demographics: age, location
+
