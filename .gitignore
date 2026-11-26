@@ -1,0 +1,8 @@
+venv/
+__pycache__/
+*.csv
+.env
+logs/
+telecom_dbt/target/
+telecom_dbt/dbt_packages/
+telecom_dbt/logs/

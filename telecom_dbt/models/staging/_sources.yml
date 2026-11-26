@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: telecom_recharge_db
+    schema: public
+    tables:
+      - name: recharge_transactions
+      - name: daily_summary
+      - name: cdr_records
