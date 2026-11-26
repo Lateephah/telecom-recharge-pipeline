@@ -8,7 +8,7 @@ Telecom Customer 360 pipeline - Python → PostgreSQL → dbt → Looker Studio.
 **Live Dashboard:** [https://datastudio.google.com/reporting/3dc7c1d2-7f56-4049-a16b-2cc285def118]
 **Stack:** Python | PostgreSQL | dbt | Looker Studio
 
-![Dashboard](dashboard.PNG)
+![Dashboard](Dashboard/dashboard.png)
 
 ## ✅ Success - What Works
 
