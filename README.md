@@ -1,9 +1,3 @@
-# Telecom Recharge Pipeline
-
-> End-to-end telecom analytics pipeline: Used Python to generate 99,971 customers + recharge & CDR data, modeled in dbt on PostgreSQL, visualized in Data Studio. Found & fixed a duplicate customer_id bug that collapsed 99,971 customers into 999. KPIs reconcilation: 146.1M Naira revenue - 23.8M usage = 122.2M balance.
-
-
-
 # Telecom Recharge & Usage Analytics Pipeline
 
 > 🚧 **WORK IN PROGRESS**
